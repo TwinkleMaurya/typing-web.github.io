@@ -1,0 +1,125 @@
+
+<html>
+     <head>
+             <title></title>
+            <style>
+                 .mainDiv{
+                 height:100vh;
+                 width:100%;
+                 background:blue;
+                 position:relative;
+                 text-align: center;
+                 
+            }
+              .centerDiv{
+                position:absolute;
+                top:50%;
+                left:50%;
+               transform:translate(-50%,-50%);
+              }
+          h1{
+             text-transform:capitalize;
+            margin-bottom:30px;
+            text-shadow:1px 2px 3px pink;
+            font-size:2.1rem;
+            }
+           h2{text-align:center;}
+            textarea{
+                background-color:rgb(52, 235, 137);
+                box-shadow:2px 10px  10px rgba(0,0,0,0.5);
+                border:2px solid green;
+                color:white;
+                border-radius:10px 10px 0 0;
+               }
+          </style>
+    </head>
+    <body>
+            <div class="mainDiv">
+	 <div class="centerDiv">
+                <h1>Welcome to tipeing speed Test</h1>
+                <h2 id="msg"></h2>
+                 <textarea id="myWords" cols="100" rows="10" placeholder="Remember, be nice! "></textarea><br>
+                 <button id="btn" >Start</button>
+            </div>
+           </div>
+   </body>
+    <script>
+            const setOfWords=[
+               "Hello myself twinkle",
+               "You can not change your future,but you can change your habbits and surally your habbits will change your future",
+               "smile is best medicene for your life"
+               
+            ];
+
+            const msg=document.getElementById("msg");
+            const typeWords=document.getElementById("myWords");
+            const btn=document.getElementById("btn");
+            let startTime,endTime;
+
+             const playGame=()=>{
+               //for the check random value:-
+                //let randomNumber=Math.floor(Math.random()*100);
+                //console.log(randomNumber);
+               let randomNumber=Math.floor(Math.random()*setOfWords.length);
+               console.log(randomNumber);
+               msg.innerText=setOfWords[randomNumber];
+               let date=new Date();
+               startTime=date.getTime();
+               btn.innerText="Done";
+              }
+
+              const endPlay=()=>{
+               let date=new Date();
+               let endTime=date.getTime();
+               let totalTime=((endTime-startTime)/1000);
+               console.log(totalTime);
+
+
+              let totalStr=typeWords.value;
+              let wordCount=wordCounter(totalStr);
+
+              let speed=Math.round((wordCount/totalTime)*60);
+              console.log("speed="+speed);
+              let finalMsg="your total type speed : "+speed+" words per minute  ";
+              
+          
+              finalMsg+=compareWords(msg.innerText,totalStr)
+
+              msg.innerText=finalMsg;
+              }
+              const compareWords=(str1,str2)=>{
+               let words1=str1.split(" ");
+               let words2=str2.split(" ");
+               let cnt=0;
+
+               words1.forEach(function(item,index){
+                    if(item==words2[index]){
+                         cnt++;
+                    }
+                    //console.log (words1);
+               })
+               let errorWords=(words1.length-cnt);
+               console.log(errorWords);
+               return (cnt+"correct out of"+words1.length+" words and the total number of error are= "+errorWords+".");
+              }
+              const wordCounter=(str)=>{
+                 let response=str.split(" ").length;
+                 console.log(response);
+                 return response;
+              }
+
+            btn.addEventListener('click',function(){
+              console.log(this);
+              
+               if(this.innerText=="Start"){
+                   typeWords.disabled=false;
+                    playGame();
+               }else if(this.innerText=="Done"){
+                   typeWords.disabled=true;
+                   btn.innerText="Start";
+                   endPlay();
+               }
+            })
+
+   </script>
+</html>
